@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TOSERBA DIGITAL — Aplikasi Premium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --text:#2f2f33;
+  --muted:rgba(47,47,51,.7);
+  --pink:#ff9ecb;
+  --yellow:#ffd86f;
+  --blue:#7fd8ff;
+  --purple:#c89bff;
+  --mint:#8fffd2;
+  --glass:rgba(255,255,255,.65);
+  --radius:22px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Fredoka',sans-serif;
+  color:var(--text);
+  background:linear-gradient(-45deg,var(--pink),var(--yellow),var(--blue),var(--purple),var(--mint));
+  background-size:400% 400%;
+  animation:bg 14s ease infinite;
+}
+
+@keyframes bg{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.container{
+  width:min(1100px,92vw);
+  margin:auto;
+  padding:16px; /* sedikit dirapetin */
+}
+
+/* HEADER RAPET */
+header{
+  margin-bottom:12px;
+}
+
+h1{
+  font-family:'Baloo 2',cursive;
+  margin:0;
+  line-height:1.05;
+}
+
+header p{
+  margin:4px 0 0;
+  font-size:14px;
+  color:var(--muted);
+  line-height:2;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
+
+/* CARD */
+.card{
+  border-radius:var(--radius);
+  background:rgba(255,255,255,.7);
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+}
+
+.card h2{
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.card p{
+  margin:0 0 8px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+select{
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  margin-bottom:10px;
+  font-family:inherit;
+}
+
+.btn{
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:600;
+  background:linear-gradient(135deg,var(--pink),var(--yellow),var(--blue));
+}
+.btn:hover{filter:brightness(1.05)}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <h1>TOSERBA DIGITAL</h1>
+  <p>Aplikasi Premium • Murah • Full Garansi </p>
+</header>
+
+<main class="grid" id="productGrid"></main>
+
+</div>
+
+<script>
+const WHATSAPP_NUMBER_INTL="62877757878888";
+
+const PRODUCTS=[
+{
+name:"Canva Pro",
+variants:[
+{label:"1 Bulan",price:18000}
+]
+},
+{
+name:"Youtube Premium",
+variants:[
+{label:"1 Bulan",price:20000}
+]
+},
+{
+name:"ChatGPT Plus",
+variants:[
+{label:"1 Bulan",price:45000}
+]
+},
+{
+name:"SCRIBD Premium",
+variants:[
+{label:"1 Bulan",price:35000}
+]
+},
+{
+name:"Netflix Premium",
+variants:[
+{label:"1 Bulan",price:45000}
+]
+}
+];
+
+const grid=document.getElementById("productGrid");
+
+function rupiah(n){return "Rp "+n.toLocaleString("id-ID")}
+
+PRODUCTS.forEach(product=>{
+const card=document.createElement("div");
+card.className="card";
+
+const select=document.createElement("select");
+product.variants.forEach((v,i)=>{
+const opt=document.createElement("option");
+opt.value=i;
+opt.textContent=v.label+" — "+rupiah(v.price);
+select.appendChild(opt);
+});
+
+const btn=document.createElement("button");
+btn.className="btn";
+btn.textContent="Beli";
+
+btn.onclick=()=>{
+const v=product.variants[select.value];
+const msg=`Halo TOSERBA DIGITAL, saya mau order:
+
+• Produk : ${product.name}
+• Varian : ${v.label}
+• Harga  : ${rupiah(v.price)}
+
+Mohon info lanjut ya. Terima kasih!`;
+
+window.open(`https://wa.me/${WHATSAPP_NUMBER_INTL}?text=${encodeURIComponent(msg)}`,"_blank");
+};
+
+card.innerHTML=`<h2>${product.name}</h2>`;
+card.appendChild(select);
+card.appendChild(btn);
+grid.appendChild(card);
+});
+</script>
+
+</body>
+</html>
